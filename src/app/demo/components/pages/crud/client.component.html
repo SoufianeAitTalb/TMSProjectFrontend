@@ -1,0 +1,370 @@
+
+
+<div class="grid"> 
+    <div class="col-6 lg:col-4 xl:col-2">
+        <div class="card mb-0">
+            <div class="flex justify-content-between mb-3">
+                <div>
+                    <div class="text-900 font-medium text-xl mt-2">{{Total_Clients}}</div>
+                    <span class="block text-500 font-medium mt-5">Totale des clients</span>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-orange-100 border-round" [ngStyle]="{width: '2rem', height: '2.5rem'}">
+                    <i class="pi pi-chart-bar text-orange-500 text-xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 lg:col-4 xl:col-2">
+        <div class="card mb-0">
+            <div class="flex justify-content-between mb-3">
+                <div>
+                    <div class="text-900 font-medium text-xl mt-2">{{Total_Active_Clients}}</div>
+                    <span class="block text-500 font-medium mt-5">Clients actifs</span>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-blue-100 border-round" [ngStyle]="{width: '2rem', height: '2.5rem'}">
+                    <i class="pi pi-check-circle text-blue-500 text-xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 lg:col-4 xl:col-2">
+        <div class="card mb-0">
+            <div class="flex justify-content-between mb-3">
+                <div>
+                    <div class="text-900 font-medium text-xl mt-2">{{Total_Inactive_Clients}}</div>
+                    <span class="block text-500 font-medium mt-5">Clients inactifs</span>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-purple-100 border-round" [ngStyle]="{width: '2rem', height: '2.5rem'}">
+                    <i class="pi pi-circle text-purple-500 text-xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 lg:col-4 xl:col-2">
+        <div class="card mb-0">
+            <div class="flex justify-content-between mb-3">
+                <div>
+                    <div class="text-900 font-medium text-xl mt-2">{{Total_Active_Contacts}}</div>
+                    <span class="block text-500 font-medium mt-5">Contacts actifs</span>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-blue-100 border-round" [ngStyle]="{width: '2rem', height: '2.5rem'}">
+                    <i class="pi pi-check-circle text-blue-500 text-xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 lg:col-4 xl:col-2">
+        <div class="card mb-0">
+            <div class="flex justify-content-between mb-3">
+                <div>
+                    <div class="text-900 font-medium text-xl mt-2">{{Total_Inactive_Contacts}}</div>
+                    <span class="block text-500 font-medium mt-5">Contacts inactifs</span>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-purple-100 border-round" [ngStyle]="{width: '2rem', height: '2.5rem'}">
+                    <i class="pi pi-circle text-purple-500 text-xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 lg:col-4 xl:col-2">
+        <div class="card mb-0">
+            <div class="flex justify-content-between mb-3">
+                <div>
+                    <div class="text-900 font-medium text-xl mt-2">{{Total_Contacts}}</div>
+                    <span class="block text-500 font-medium mt-5">Totale des contacts</span>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-green-100 border-round" [ngStyle]="{width: '2rem', height: '2.5rem'}">
+                    <i class="pi pi-chart-bar text-green-500 text-xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="grid">
+    <div class="col-12">
+        <div class="card px-6 py-6">
+            <p-toast></p-toast>
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2" >
+                        <button pButton pRipple label="Ajouter Client" icon="pi pi-plus" class="p-button-raised mr-2" (click)="ajouterClient()"></button>
+                    </div>
+                </ng-template>    
+            </p-toolbar>
+
+            <p-table #dt [value]="clients" [columns]="cols" responsiveLayout="scroll" [rows]="15" [globalFilterFields]="['company','staffFullName','email','phoneNumber','dateAffectation']" [paginator]="true"  [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"  [rowHover]="true" dataKey="id"><!--[(selection)]="selectedClients" selectionMode="multiple">-->
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                        <h5 class="m-0">Liste de Clients</h5>
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..."  class="w-full sm:w-auto"/>
+                        </span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                       
+                        <th pSortableColumn="company">Société <p-sortIcon field="company"></p-sortIcon></th>
+                        <th pSortableColumn="staffFullName"> Commercial <p-sortIcon field="staffFullName"></p-sortIcon></th>
+                        <th pSortableColumn="email">E-mail <p-sortIcon field="email"></p-sortIcon></th>
+                        <th pSortableColumn="phoneNumber">Tél <p-sortIcon field="phoneNumber"></p-sortIcon></th>
+                        <th pSortableColumn="dateAffectation">Date d'Affectation <p-sortIcon field="dateAffectation"></p-sortIcon></th>
+                        <th >Options </th>
+                        
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-client>
+                    <tr>
+                        
+                        <td style="width:14%; min-width:10rem;"><span class="p-column-title">Société</span>
+                            {{client.company}}
+                        </td>
+                        <td style="width:14%; min-width:10rem;"><span class="p-column-title">Commercial</span>
+                          {{client.staffFullName}}                        </td>
+                    
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">E-mail principal</span>
+                            {{client.email}}
+                        </td>
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">Tél</span>
+                            {{client.phoneNumber}}
+                        </td>
+                       
+                        
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">Date d'Affectation</span>
+                            <div *ngIf="client.dateAffectation">{{this.formatDate(client.dateAffectation)}}</div>
+                            
+                        </td>
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">Options</span>
+                            <div class="flex">
+                                <button pButton pRipple icon="pi pi-pencil"  class="p-button-rounded p-button-success p-button-outlined  mr-2" (click)="editClient(client)"></button>
+                                <button pButton pRipple icon="pi pi-user" class="p-button-rounded p-button-warning p-button-outlined mr-2"(click)="commercial(client)"></button>
+                                <button pButton pRipple icon="pi pi-phone" class="p-button-rounded p-button-info p-button-outlined mr-2"  (click)="navigateToContactClient(client.clientId)"></button>
+                                <button pButton pRipple icon="pi pi-times" class="p-button-rounded p-button-danger p-button-outlined" (click)="deleteClient(client)"></button>
+                            </div>   
+                        </td>
+                        
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+
+        <p-dialog [(visible)]="deleteClientDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span *ngIf="client">Êtes-vous sûr(e) de vouloir supprimer <b>{{client.company}}</b>?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-butFcheckton-text" label="Non" (click)="deleteClientDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Oui" (click)="confirmDelete()"></button>
+            </ng-template>
+        </p-dialog>        
+
+
+
+        <p-dialog [(visible)]="clientDialog" [style]="{width: '1190px'}" header=" Client" [modal]="true" class="p-fluid">
+            <ng-template pTemplate="content">
+                <p-tabView orientation="left">
+                    
+
+                    
+                    <p-tabPanel header="informations générales" class="line-height-3 m-0 font-size: 20px;">
+
+                    <div class="form-columns formgroup-inline">
+                        <div class="form-column col-12 md:col-6">
+                            <div class="field ">
+                                <label for="company">Société</label>
+                                <input type="text" pInputText id="company" [(ngModel)]="client.company" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !client.company}"/>
+                                 <small class="ng-dirty ng-invalid" *ngIf="submitted && !client.company">is required.</small>
+                            </div>
+                            <div class="field ">
+                                <label for="iceClient">ICE</label>
+                                <input type="text" pInputText id="iceClient" [(ngModel)]="client.iceClient" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !client.iceClient}"/>
+                                 <small class="ng-dirty ng-invalid" *ngIf="submitted && !client.iceClient">is required.</small>
+                            </div>
+                            <div class="field ">
+                                <label for="phoneNumber">Téléphone</label>
+                                <input type="text" pInputText id="phoneNumber" [(ngModel)]="client.phoneNumber" />
+                                 <small class="ng-dirty ng-invalid" *ngIf="submitted && !client.phoneNumber">is required.</small>
+                            </div>
+                            <div class="field ">
+                                <label for="email">Email</label>
+                                <input type="email" pInputText id="email" [(ngModel)]="client.email" />
+                            </div>
+                            <div class="field ">
+                                <label for="enCours">En cours</label>
+                                <p-inputNumber id="enCours" [(ngModel)]="client.enCours"mode="decimal" [showButtons]="true" [min]="0"></p-inputNumber>
+                            </div>
+                            <div class="field ">
+                                <label for="echeance">Echéance (en jours)</label>
+                                <p-inputNumber id="echeance" [(ngModel)]="client.echeance" mode="decimal" [showButtons]="true" [min]="0" ></p-inputNumber>
+                            </div>
+                            <div class="field ">
+                                <label for="website">Site Web</label>
+                                <input type="text" pInputText id="website" [(ngModel)]="client.website" />
+                                
+                            </div>
+                            <div class="field ">
+                                <label for="rc">RC</label>
+                                <input type="text" pInputText id="rc" [(ngModel)]="client.rc" />
+                            </div>
+                            <div class="field ">
+                                <label for="cnss">CNSS</label>
+                                <input type="text" pInputText id="cnss" [(ngModel)]="client.cnss" />
+                            </div>
+                        </div>
+        
+        
+                        <div class="form-column col-12 md:col-6">
+        
+                            <div class="field ">
+                                <label for="address">Addresse</label>
+                                <textarea id="address" pInputTextarea [(ngModel)]="client.address"  rows="3" cols="20" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !client.address}" ></textarea>
+                                <small class="ng-dirty ng-invalid" *ngIf="submitted && !client.address"> is required.</small>
+                            </div>
+                            <div class="field ">
+                                <label for="city">Ville</label>
+                                <input type="text" pInputText id="city" [(ngModel)]="client.city" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !client.city}"/>
+                                 <small class="ng-dirty ng-invalid" *ngIf="submitted && !client.city"> is required.</small>
+                            </div>
+                            <div class="field ">
+                                <label for="zip">Code Postal</label>
+                                <input type="text" pInputText id="zip" [(ngModel)]="client.zip" />
+                                 
+                            </div>
+                            <div class="field ">
+                                <label for="country">Pays</label>
+                                <p-dropdown [options]="countries" optionLabel="longName" optionValue="countryId" [(ngModel)]="client.countryId"></p-dropdown>
+                                <!--<p-autoComplete id="country" [(ngModel)]="client.countryId" [suggestions]="Countries" (completeMethod)="filterCountry($event)" field="name" [dropdown]="true"></p-autoComplete> <p *ngIf="client.countryId">Selected Country: {{ client.countryId }}</p>
+                            --></div>
+                            <div class="form-columns formgroup-inline">
+                                <div class="form-column col-12 md:col-6">
+                                
+                                    <div class="field ">
+                                        <label for="codeComptable">Code Comptable</label>
+                                        <input type="text" pInputText id="codeComptable" [(ngModel)]="client.codeComptable" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !client.codeComptable}"/>
+                                         <small class="ng-dirty ng-invalid" *ngIf="submitted && !client.codeComptable">is required.</small>
+                                        </div></div>
+                                    <div class="form-column col-12 md:col-6">
+                                    <div class="field ">
+                                        <label for="codeAuxi">Code Auxilère</label>
+                                        <input type="text" pInputText id="zip" [(ngModel)]="client.codeAuxi" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !client.codeAuxi}"/>
+                                         <small class="ng-dirty ng-invalid" *ngIf="submitted && !client.codeAuxi"> is required.</small>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div class="field ">
+                                <label for="currency">Devise</label>
+                                <p-dropdown [options]="currencies" optionLabel="name" optionValue="currencyId" [(ngModel)]="client.defaultCurrencyId" (ngModelChange)="onCurrencySelectionChange($event)"></p-dropdown>
+                              <!--  <input type="text" pInputText id="currency" [(ngModel)]="client.defaultCurrencyId" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !client.defaultCurrencyId}"/>-->
+                            </div>
+                            <div class="field">
+                                <label for="patente">Patante</label>
+                                <p-inputNumber id="patente" [(ngModel)]="client.patente"></p-inputNumber>
+                            </div>
+                        </div>   
+                    </div>
+                </p-tabPanel>
+
+                <!--<div *ngIf="!BoolClientDialog">-->
+                    <p-tabPanel header="Facturation et Expédition" class="line-height-3 m-0">
+                    <div class="form-columns formgroup-inline">
+                        <div class="form-column col-12 md:col-6">
+                            <b>Addresse de Facturation</b>
+                            <div class="field ">
+                                <label class="mb-2" for="country">Pays</label>
+                                <p-dropdown [options]="countries" optionLabel="longName" optionValue="countryId"  [(ngModel)]="client.billingCountryId"></p-dropdown>
+                            </div>
+                            <div class="field ">
+                                <label class="mb-2" for="state1">Région</label>
+                                <input type="text" pInputText id="state1" [(ngModel)]="client.billingState" />
+                            </div>
+                            <div class="field ">
+                                <label class="mb-2" for="city1">Ville</label>
+                                <input type="text" pInputText id="city1" [(ngModel)]="client.billingCity"/>
+                            </div>
+                            <div class="field ">
+                                <label class="mb-2" for="street1">Rue</label>
+                                <input type="text" pInputText id="street1" [(ngModel)]="client.billingStreet"/>
+                            </div>
+                            <div class="field ">
+                                <label class="mb-2" for="zip1">Code Postal</label>
+                                <input type="text" pInputText id="zip1" [(ngModel)]="client.billingZip" />
+                            </div>
+                        </div>
+    
+    
+                        <div class="form-column col-12 md:col-6">
+                            <b>Addresse d'Expédition</b>
+                            <div class="field ">
+                                <label class="mb-2" for="country2">Pays</label>
+                                <p-dropdown [options]="countries" optionLabel="longName" optionValue="countryId" [(ngModel)]="client.shippingCountryId" ></p-dropdown>
+                            </div>
+                            <div class="field ">
+                                <label class="mb-2" for="state2">Région</label>
+                                <input type="text" pInputText id="state2" [(ngModel)]="client.shippingState" />
+                            </div>
+                            <div class="field ">
+                                <label class="mb-2" for="city2">Ville</label>
+                                <input type="text" pInputText id="city2" [(ngModel)]="client.shippingCity" />
+                            </div>
+                            <div class="field ">
+                                <label class="mb-2" for="street2">Rue</label>
+                                <input type="text" pInputText id="street2" [(ngModel)]="client.shippingStreet"/>
+                            </div>
+                            <div class="field ">
+                                <label  class="mb-2" for="zip2">Code Postal</label>
+                                <input type="text" pInputText id="zip2" [(ngModel)]="client.shippingZip" />
+                            </div>
+                            
+                        </div>
+                    </div>
+                </p-tabPanel>
+                
+            </p-tabView>
+        </ng-template>
+
+            <ng-template pTemplate="footer">
+                <button pButton pRipple label="Annuler" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+                <button pButton pRipple label="Enregistrer" icon="pi pi-check" class="p-button-text" (click)="saveClient()"></button>
+            </ng-template>
+        </p-dialog>
+
+
+
+
+        <p-dialog [(visible)]="StaffDialog" [style]="{width: '700px'}" header="Commercial" [modal]="true" class="p-fluid">
+            
+                <div class="card">
+                    <div class="form-columns formgroup-inline">
+                        <div class="form-column col-12 md:col-6">
+                            <p-dropdown [options]="listStaff" [(ngModel)]="Staff.staffId" [virtualScroll]="true" placeholder="Selectionner un Commercial" [virtualScrollItemSize]="20" optionLabel="lastName" optionValue="staffId" dataKey="staffId" (ngModelChange)="onStaffSelectionChange($event)">
+                                <ng-template let-staff pTemplate="selectedItem">
+                                  {{ staff.firstName  + ' ' + staff.lastName}}
+                                </ng-template>
+                                <ng-template let-staff pTemplate="item">
+                                  {{ staff.firstName + ' ' + staff.lastName }}
+                                </ng-template>
+                            </p-dropdown> 
+                        </div>
+                        <div class="form-column col-12 md:col-6">
+                            <button pButton label="Affecter Commercial" (click)="AffectCommercial()"></button>
+                        </div>
+                    </div>
+                            
+                    <button pButton label="Annuler l'Affectation" class="p-button-danger"(click)="SupprimerCommercial()"></button>   
+                </div> 
+                <br/><br/><br/><br/><br/><br/>
+                <ng-template pTemplate="footer">
+                    <button pButton pRipple label="Terminer" icon="pi pi-check" class="p-button-text" (click)="hideDialog()"></button>
+                </ng-template>
+        </p-dialog>
+    </div>
+</div>

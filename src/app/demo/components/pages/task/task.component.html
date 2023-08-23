@@ -1,0 +1,314 @@
+
+
+<div class="grid">
+    <div class="col-12 lg:col-6 xl:col-3">
+        <div class="card mb-0">
+            <div class="flex justify-content-between mb-3">
+                <div>
+                    <div class="text-900 font-medium text-xl mt-2">{{Total_Tasks}}</div>
+                    <span class="block text-500 font-medium mt-5">Totale des tâches</span>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-orange-100 border-round" [ngStyle]="{width: '2rem', height: '2.5rem'}">
+                    <i class="pi pi-chart-bar text-orange-500 text-xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 lg:col-6 xl:col-3">
+        <div class="card mb-0">
+            <div class="flex justify-content-between mb-3">
+                <div>
+                    <div class="text-900 font-medium text-xl mt-2">{{Total_Scheduled_Tasks}}</div>
+                    <span class="block text-500 font-medium mt-5">Tâches programmées</span>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-blue-100 border-round" [ngStyle]="{width: '2rem', height: '2.5rem'}">
+                    <i class="pi pi-check-circle text-blue-500 text-xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 lg:col-6 xl:col-3">
+        <div class="card mb-0">
+            <div class="flex justify-content-between mb-3">
+                <div>
+                    <div class="text-900 font-medium text-xl mt-2">{{Total_Done_Tasks}}</div>
+                    <span class="block text-500 font-medium mt-5">Tâches effectuées</span>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-purple-100 border-round" [ngStyle]="{width: '2rem', height: '2.5rem'}">
+                    <i class="pi pi-circle text-purple-500 text-xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 lg:col-6 xl:col-3">
+        <div class="card mb-0">
+            <div class="flex justify-content-between mb-3">
+                <div>
+                    <div class="text-900 font-medium text-xl mt-2">{{Total_Canceled_Tasks}}</div>
+                    <span class="block text-500 font-medium mt-5">Tâches annulées</span>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-purple-100 border-round" [ngStyle]="{width: '2rem', height: '2.5rem'}">
+                    <i class="pi pi-circle text-purple-500 text-xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+<div class="grid">
+    <div class="col-12">
+        <div class="card px-6 py-6">
+            <p-toast></p-toast>
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2" >
+                        <button pButton pRipple label="Ajouter Tâche" icon="pi pi-plus" class="p-button-raised mr-2" (click)="ajouterTache()"></button>
+
+                    </div>
+                </ng-template>
+
+
+            </p-toolbar>
+
+            <div class="mb-3 ml-2"  ><span><h5>Liste de tâches</h5></span></div>
+
+            <p-table #dt [value]="tasks" [columns]="cols" responsiveLayout="scroll" [rows]="15" [globalFilterFields]="['name','status','dueDate','priority']" [paginator]="true"  [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"  [rowHover]="true" dataKey="id">
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+
+
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..."  class="w-full sm:w-auto"/>
+                        </span>
+
+
+                        <form class="flex align-items-center gap-1" >
+                            <label >Inclure les tâches programmées uniquement&nbsp;&nbsp;</label>
+                            <p-checkbox  (onChange)="inclProg=!inclProg" value=""   ></p-checkbox>
+
+
+                        </form>
+
+
+                        <p-button  styleClass="p-button-outlined" (click)="exportToExcel()" label="Exporter"  icon="pi pi-upload" ></p-button>
+
+
+
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+
+                        <th pSortableColumn="name">NOM <p-sortIcon field="name"></p-sortIcon></th>
+                        <th pSortableColumn="status"> STATUS <p-sortIcon field="status"></p-sortIcon></th>
+                        <th pSortableColumn="dueDate">DATE D'ÉCHÉANCE <p-sortIcon field="dueDate"></p-sortIcon></th>
+                        <th pSortableColumn="priority">PRIORITE <p-sortIcon field="priority"></p-sortIcon></th>
+                         <th >Options </th>
+
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-task>
+                    <tr>
+<!--                        <td>-->
+
+<!--                        </td>-->
+                        <td style="width:14%; min-width:10rem;"><span class="p-column-title">NOM</span>
+                            <div *ngIf="task.name" >{{task.name}}</div>
+
+                        </td>
+                        <td  style="width:14%; min-width:10rem;"><span class="p-column-title">STATUS</span>
+
+                                <div *ngIf="task.status">
+                                    <span  [ngStyle]="getStatusStyle(task.status)"  >{{task.status}}</span>
+                                    </div>
+
+
+
+                        </td>
+
+
+
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">DATE D'ÉCHÉANCE</span>
+                            <div *ngIf="task.dueDate" >{{task.dueDate | date: "hh/MM/yyyy, HH:mm:ss"}}</div>
+                        </td>
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">PRIORITY</span>
+
+                            <div   *ngIf="task.priority" >
+
+<!--                            <span class="p-inline-message p-inline-message-error" >{{task.priority}}</span>-->
+                            <span  [ngStyle]="getPriorityStyle(task.priority)"  >{{task.priority}}</span>
+                            </div>
+
+                        </td>
+
+
+
+
+
+
+
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">Options</span>
+                            <div class="flex">
+                                <button pButton pRipple icon="pi pi-pencil"  class="p-button-rounded  mr-2"  style="background-color: transparent; border: 1px solid green; color: green;"(click)="editTask(task)"></button>
+<!--                                <button pButton pRipple icon="pi pi-phone" class="p-button-rounded mr-2" style="background-color: transparent; border: 1px solid blue; color: blue;" (click)="makePhoneCall(agent.phoneNumber)"></button>-->
+                                <button pButton pRipple icon="pi pi-times" class="p-button-rounded"  style="background-color: transparent; border: 1px solid red; color: red;"(click)="deleteTask(task)"></button>
+                            </div>
+                        </td>
+
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+
+        <p-dialog [(visible)]="deleteTaskDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span *ngIf="agent">Are you sure you want to delete <b>{{agent.company}}</b>?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-butFcheckton-text" label="No" (click)="deleteTaskDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDelete()"></button>
+            </ng-template>
+        </p-dialog>
+
+
+
+        <p-dialog [(visible)]="taskDialog" [style]="{width: '1190px'}" header="Tâche" [modal]="true" class="p-fluid">
+            <ng-template pTemplate="content">
+                <p-tabView orientation="left">
+
+
+
+                    <p-tabPanel header="Détails" class="line-height-3 m-0">
+
+                        <div class="form-columns formgroup-inline">
+                            <div class="form-column col-12 md:col-6">
+
+                                <div class="field ">
+                                    <label for="planNextAction"  > <span style="color:red" >* </span>Nom de la tâche</label>
+                                    <input type="text" pInputText id="name"  [(ngModel)]="task.name" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !task.name}"/>
+                                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !task.name">Name is required.</small>
+                                </div>
+                                <div class="field ">
+                                    <label for="dueDate"  > <span style="color:red" >* </span>Date d'échéance</label>
+                                    <input type="datetime-local" pInputText id="company"  [(ngModel)]="task.dueDate" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !task.dueDate}"/>
+                                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !task.dueDate">Name is required.</small>
+                                </div>
+                                <div class="field ">
+                                    <label for="priority"><span style="color:red" >* </span>Priorité</label>
+                                    <p-dropdown [options]="taskPriorityValues" optionLabel="" [(ngModel)]="task.priority" [ngClass]="{'ng-invalid ng-dirty' : submitted && !task.priority}"></p-dropdown>
+                                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !task.priority">Priority is required.</small>
+                                </div>
+                                <div class="field ">
+                                    <label for="repeatEvery"><span style="color:red" >* </span>Répéter chaque</label>
+                                    <p-dropdown [options]="taskRepeatEveryValues" optionLabel="" [(ngModel)]="task.repeatEvery" [ngClass]="{'ng-invalid ng-dirty' : submitted && !task.repeatEvery}"></p-dropdown>
+                                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !task.repeatEvery">RepeatEvery is required.</small>
+                                </div>
+
+
+                            </div>
+
+
+                            <div class="form-column col-12 md:col-6">
+
+                                <div class="field ">
+                                    <label for="linkTo"><span style="color:red" >* </span>Type du collaborateur</label>
+                                    <p-dropdown  [options]="linkToValues" optionLabel="" [(ngModel)]="linkTo" (ngModelChange)="onModelChange($event)" [ngClass]="{'ng-invalid ng-dirty' : submitted && !task.priority}"></p-dropdown>
+                                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !task.priority">Priority is required.</small>
+                                </div>
+
+                                <div class="field ">
+                                    <label for="taskDetails"><span style="color:red" >* </span>Détails de la tâche</label>
+                                    <textarea id="taskDetails" pInputTextarea [(ngModel)]="task.taskDetails"  rows="3" cols="20" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !task.taskDetails}" ></textarea>
+                                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !task.taskDetails">Task Details is required.</small>
+                                </div>
+
+                                <div class="field ">
+                                    <label for="planNextAction"  > <span style="color:red" >* </span>Prévoir prochaine action</label>
+                                    <input type="datetime-local" pInputText id="planNextAction"  [(ngModel)]="task.planNextAction" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !task.planNextAction}"/>
+                                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !task.planNextAction">Plan Next Action is required.</small>
+                                </div>
+
+                            </div>
+                        </div>
+                    </p-tabPanel>
+
+
+                    <p-tabPanel header="Lier a" class="line-height-3 m-0">
+                        <div class="form-columns formgroup-inline">
+                            <div class="form-column col-12 md:col-6">
+
+                                <div class="field ">
+                                    <label class="mb-2" for="country">Nom du collaborateur</label>
+                                    <p-dropdown   [options]="collaborators" optionLabel="name" [(ngModel)]="collaborator"></p-dropdown>
+<!--                                    <p-dropdown *ngIf="linkTo==='CLIENT'" [options]="clients" optionLabel="company" [(ngModel)]="client"></p-dropdown>-->
+                                </div>
+                                <div class="field ">
+                                    <label class="mb-2" for="state1">Email</label>
+                                    <input disabled type="text" pInputText id="state1"  [(ngModel)]="collaborator.email" />
+                                </div>
+                                <div class="field ">
+                                    <label class="mb-2" for="city1">Tel</label>
+                                    <input disabled type="text" pInputText id="city1" [(ngModel)]="collaborator.phoneNumber"/>
+                                </div>
+                                <div class="field ">
+                                    <label class="mb-2" for="street1">Ville</label>
+                                    <input disabled type="text" pInputText id="street1" [(ngModel)]="collaborator.city"/>
+                                </div>
+
+
+                            </div>
+
+
+                            <div class="form-column col-12 md:col-6">
+
+                                <div class="field ">
+                                    <label class="mb-2" for="country2">Pays</label>
+                                    <input disabled type="text" pInputText id="countryLongName" [(ngModel)]="collaborator.countryLongName" />
+                                </div>
+                                <div class="field ">
+                                    <label class="mb-2" for="state2">Commercial</label>
+                                    <input disabled type="text" pInputText id="state2" [(ngModel)]="collaborator.staffFullName" />
+                                </div>
+                                <div class="field ">
+                                    <label class="mb-2" for="zip1">Address</label>
+                                    <input disabled type="text" pInputText id="zip1" [(ngModel)]="collaborator.address" />
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </p-tabPanel>
+
+                </p-tabView>
+
+
+
+
+
+
+
+            </ng-template>
+
+            <ng-template pTemplate="footer">
+                <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+                <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="ajouterOrEdit()"></button>
+            </ng-template>
+        </p-dialog>
+
+
+
+    </div>
+</div>
+
+
+
+

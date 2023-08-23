@@ -1,0 +1,336 @@
+
+
+<div class="grid">
+    <div class="col-12 lg:col-6 xl:col-4">
+        <div class="card mb-0">
+            <div class="flex justify-content-between mb-3">
+                <div>
+                    <div class="text-900 font-medium text-xl mt-2">{{Total_Agents}}</div>
+                    <span class="block text-500 font-medium mt-5">Totale des agents</span>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-orange-100 border-round" [ngStyle]="{width: '2rem', height: '2.5rem'}">
+                    <i class="pi pi-chart-bar text-orange-500 text-xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 lg:col-6 xl:col-4">
+        <div class="card mb-0">
+            <div class="flex justify-content-between mb-3">
+                <div>
+                    <div class="text-900 font-medium text-xl mt-2">{{Total_Active_Agents}}</div>
+                    <span class="block text-500 font-medium mt-5">Agents actifs</span>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-blue-100 border-round" [ngStyle]="{width: '2rem', height: '2.5rem'}">
+                    <i class="pi pi-check-circle text-blue-500 text-xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 lg:col-6 xl:col-4">
+        <div class="card mb-0">
+            <div class="flex justify-content-between mb-3">
+                <div>
+                    <div class="text-900 font-medium text-xl mt-2">{{Total_Inactive_Agents}}</div>
+                    <span class="block text-500 font-medium mt-5">Agents inactifs</span>
+                </div>
+                <div class="flex align-items-center justify-content-center bg-purple-100 border-round" [ngStyle]="{width: '2rem', height: '2.5rem'}">
+                    <i class="pi pi-circle text-purple-500 text-xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+<div class="grid">
+    <div class="col-12">
+        <div class="card px-6 py-6">
+            <p-toast></p-toast>
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2" >
+                        <button pButton pRipple label="Ajouter Agent" icon="pi pi-plus" class="p-button-raised mr-2" (click)="ajouterAgent()"></button>
+
+                    </div>
+                </ng-template>
+
+
+            </p-toolbar>
+
+            <div class="mb-3 ml-2"  ><span><h5>Liste d'Agents</h5></span></div>
+
+            <p-table #dt [value]="agents" [columns]="cols" responsiveLayout="scroll" [rows]="15" [globalFilterFields]="['company','staffFullName','email','phoneNumber','active','dateAffectation']" [paginator]="true"  [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"  [rowHover]="true" dataKey="id"><!--[(selection)]="selectedAgents" selectionMode="multiple">-->
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+
+
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..."  class="w-full sm:w-auto"/>
+                        </span>
+
+
+                        <form class="flex align-items-center gap-1" >
+                            <label >Exclure les inactifs agents</label>
+                            <p-checkbox  (onChange)="exclInactif=!exclInactif" value=""   ></p-checkbox>
+
+
+                        </form>
+
+
+                        <p-button  styleClass="p-button-outlined" (click)="exportToExcel()" label="Exporter"  icon="pi pi-upload" ></p-button>
+
+
+
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+
+                        <th pSortableColumn="company">Société <p-sortIcon field="company"></p-sortIcon></th>
+                        <th pSortableColumn="staffFullName"> Commercial <p-sortIcon field="staffFullName"></p-sortIcon></th>
+                        <th pSortableColumn="email">E-mail <p-sortIcon field="email"></p-sortIcon></th>
+                        <th pSortableColumn="phoneNumber">Tél <p-sortIcon field="phoneNumber"></p-sortIcon></th>
+                        <th pSortableColumn="active">Actif <p-sortIcon field="active"></p-sortIcon></th>
+                        <th pSortableColumn="dateAffectation">Date d'Affectation <p-sortIcon field="dateAffectation"></p-sortIcon></th>
+                        <th >Options </th>
+
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-agent>
+                    <tr>
+<!--                        <td>-->
+
+<!--                        </td>-->
+                        <td style="width:14%; min-width:10rem;"><span class="p-column-title">Société</span>
+                            <div *ngIf="agent.company" >{{agent.company}}</div>
+
+                        </td>
+                        <td  style="width:14%; min-width:10rem;"><span class="p-column-title">Commercial</span>
+
+                                <div *ngIf="agent.staffFullName">{{agent.staffFullName}}</div>
+
+
+                        </td>
+
+
+
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">E-mail principal</span>
+                            <div *ngIf="agent.email" >{{agent.email}}</div>
+                        </td>
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">Tél</span>
+                            <div *ngIf="agent.phoneNumber" >{{agent.phoneNumber}}</div>
+                        </td>
+
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">Actif</span>
+
+
+
+                            <p-inputSwitch [(ngModel)]="agent.active" (ngModelChange)="onAgentActiveChange(agent)"></p-inputSwitch>
+
+                        </td>
+
+
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">Date d'Affectation</span>
+
+                            <div *ngIf="agent.dateAffectation" >{{agent.dateAffectation | date: "hh/MM/yyyy, HH:mm:ss"}}</div>
+
+                        </td>
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">Options</span>
+                            <div class="flex">
+                                <button pButton pRipple icon="pi pi-pencil"  class="p-button-rounded  mr-2"  style="background-color: transparent; border: 1px solid green; color: green;"(click)="editAgent(agent)"></button>
+                                <button pButton pRipple icon="pi pi-phone" class="p-button-rounded mr-2" style="background-color: transparent; border: 1px solid blue; color: blue;" (click)="makePhoneCall(agent.phoneNumber)"></button>
+                                <button pButton pRipple icon="pi pi-times" class="p-button-rounded"  style="background-color: transparent; border: 1px solid red; color: red;"(click)="deleteAgent(agent)"></button>
+                            </div>
+                        </td>
+
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+
+        <p-dialog [(visible)]="deleteAgentDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span *ngIf="agent">Are you sure you want to delete <b>{{agent.company}}</b>?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-butFcheckton-text" label="No" (click)="deleteAgentDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDelete()"></button>
+            </ng-template>
+        </p-dialog>
+
+
+
+        <p-dialog [(visible)]="agentDialog" [style]="{width: '1190px'}" header=" Agent" [modal]="true" class="p-fluid">
+            <ng-template pTemplate="content">
+                <p-tabView orientation="left">
+                    <p-tabPanel header="Commercial" class="line-height-3 m-0" *ngIf="boolcommercial">
+                        <p-dropdown (onShow)="dropdownFocused = true" (onHide)="dropdownFocused = false"  [options]="listStaff" optionLabel="lastName" [(ngModel)]="agentStaff"></p-dropdown>
+                        <div  [ngStyle]="dropdownFocused ? { 'height': '160px' } : { 'height': '0px' }"    ></div>
+
+                    </p-tabPanel>
+
+
+                    <p-tabPanel header="informations générales" class="line-height-3 m-0">
+
+                        <div class="form-columns formgroup-inline">
+                            <div class="form-column col-12 md:col-6">
+                                <div class="field ">
+                                    <label for="company"  > <span style="color:red" >* </span>Société</label>
+                                    <input type="text" pInputText id="company"  [(ngModel)]="agent.company" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !agent.company}"/>
+                                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !agent.company">Name is required.</small>
+                                </div>
+                                <div class="field ">
+                                    <label for="phoneNumber"><span style="color:red" >* </span>Téléphone</label>
+                                    <input type="text" pInputText id="phoneNumber" [(ngModel)]="agent.phoneNumber" required [ngClass]="{'ng-invalid ng-dirty' : submitted && !agent.phoneNumber}"/>
+                                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !agent.phoneNumber">Phone Number is required.</small>
+                                </div>
+                                <div class="field ">
+                                    <label for="email"><span style="color:red" >* </span>Email</label>
+                                    <input type="email" pInputText id="email" [(ngModel)]="agent.email" required [ngClass]="{'ng-invalid ng-dirty' : submitted && !agent.email}" />
+                                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !agent.email">Email is required.</small>
+                                </div>
+
+                                <div class="field ">
+                                    <label for="website">Site Web</label>
+                                    <input type="text" pInputText id="website" [(ngModel)]="agent.website" />
+                                </div>
+
+                                <div class="field ">
+                                    <label for="cnss"><span style="color:red" >* </span>CNSS</label>
+                                    <input type="cnss" pInputText id="cnss" [(ngModel)]="agent.cnss" [ngClass]="{'ng-invalid ng-dirty' : submitted && !agent.cnss}" />
+                                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !agent.cnss">CNSS is required.</small>
+                                </div>
+
+                                <div class="field">
+                                    <label for="patente">Patante</label>
+                                    <p-inputNumber id="patente" [(ngModel)]="agent.patente"></p-inputNumber>
+                                </div>
+                            </div>
+
+
+                            <div class="form-column col-12 md:col-6">
+
+                                <div class="field ">
+                                    <label for="address"><span style="color:red" >* </span>Addresse</label>
+                                    <textarea id="address" pInputTextarea [(ngModel)]="agent.address"  rows="3" cols="20" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !agent.address}" ></textarea>
+                                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !agent.address">Address is required.</small>
+                                </div>
+                                <div class="field ">
+                                    <label for="city"><span style="color:red" >* </span>Ville</label>
+                                    <input type="text" pInputText id="city" [(ngModel)]="agent.city" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !agent.city}"/>
+                                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !agent.city">City is required.</small>
+                                </div>
+                                <div class="field ">
+                                    <label for="zip">Code Postal</label>
+                                    <input type="text" pInputText id="zip" [(ngModel)]="agent.zip" />
+
+                                </div>
+                                <div class="field ">
+                                    <label for="country"><span style="color:red" >* </span>Pays</label>
+                                    <p-dropdown [options]="countries" optionLabel="longName" [(ngModel)]="agentCountry" [ngClass]="{'ng-invalid ng-dirty' : submitted && !agentCountry.countryId}"></p-dropdown>
+                                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !agentCountry.countryId">Country is required.</small>
+                                    <!--<p-autoComplete id="country" [(ngModel)]="agent.countryId" [suggestions]="Countries" (completeMethod)="filterCountry($event)" field="name" [dropdown]="true"></p-autoComplete> <p *ngIf="agent.countryId">Selected Country: {{ agent.countryId }}</p>
+                                --></div>
+
+                                <div class="field ">
+                                    <label for="currency"><span style="color:red" >* </span>Devise</label>
+                                    <p-dropdown [options]="currencies" optionLabel="name" [(ngModel)]="agentDefaultCurrency"  [ngClass]="{'ng-invalid ng-dirty' : submitted && !agentDefaultCurrency.currencyId}"></p-dropdown>
+                                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !agentDefaultCurrency.currencyId">Currency is required.</small>
+                                    <!--  <input type="text" pInputText id="currency" [(ngModel)]="agent.defaultCurrencyId" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !agent.defaultCurrencyId}"/>-->
+                                </div>
+
+                            </div>
+                        </div>
+                    </p-tabPanel>
+
+                    <!--<div *ngIf="!BoolAgentDialog">-->
+                    <p-tabPanel header="Facturation et Expédition" class="line-height-3 m-0">
+                        <div class="form-columns formgroup-inline">
+                            <div class="form-column col-12 md:col-6">
+                                <h4>Addresse de Facturation</h4>
+                                <div class="field ">
+                                    <label class="mb-2" for="country">Pays</label>
+                                    <p-dropdown [options]="countries" optionLabel="longName" [(ngModel)]="agentBillingCountry"></p-dropdown>
+                                </div>
+                                <div class="field ">
+                                    <label class="mb-2" for="state1">Région</label>
+                                    <input type="text" pInputText id="state1" [(ngModel)]="agent.billingState" />
+                                </div>
+                                <div class="field ">
+                                    <label class="mb-2" for="city1">Ville</label>
+                                    <input type="text" pInputText id="city1" [(ngModel)]="agent.billingCity"/>
+                                </div>
+                                <div class="field ">
+                                    <label class="mb-2" for="street1">Rue</label>
+                                    <input type="text" pInputText id="street1" [(ngModel)]="agent.billingStreet"/>
+                                </div>
+                                <div class="field ">
+                                    <label class="mb-2" for="zip1">Code Postal</label>
+                                    <input type="text" pInputText id="zip1" [(ngModel)]="agent.billingZip" />
+                                </div>
+
+                            </div>
+
+
+                            <div class="form-column col-12 md:col-6">
+                                <h4>Addresse d'Expédition</h4>
+                                <div class="field ">
+                                    <label class="mb-2" for="country2">Pays</label>
+                                    <p-dropdown [options]="countries" optionLabel="longName" [(ngModel)]="agentShippingCountry"></p-dropdown>
+                                </div>
+                                <div class="field ">
+                                    <label class="mb-2" for="state2">Région</label>
+                                    <input type="text" pInputText id="state2" [(ngModel)]="agent.shippingState" />
+                                </div>
+                                <div class="field ">
+                                    <label class="mb-2" for="city2">Ville</label>
+                                    <input type="text" pInputText id="city2" [(ngModel)]="agent.shippingCity" />
+                                </div>
+                                <div class="field ">
+                                    <label class="mb-2" for="street2">Rue</label>
+                                    <input type="text" pInputText id="street2" [(ngModel)]="agent.shippingStreet"/>
+                                </div>
+                                <div class="field ">
+                                    <label  class="mb-2" for="zip2">Code Postal</label>
+                                    <input type="text" pInputText id="zip2" [(ngModel)]="agent.shippingZip" />
+                                </div>
+
+                            </div>
+                        </div>
+                    </p-tabPanel>
+
+                </p-tabView>
+
+
+
+
+
+
+
+            </ng-template>
+
+            <ng-template pTemplate="footer">
+                <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+                <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="ajouterOrEdit()"></button>
+            </ng-template>
+        </p-dialog>
+
+
+
+    </div>
+</div>
+
+
+
+

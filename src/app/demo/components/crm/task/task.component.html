@@ -208,6 +208,7 @@
                                 <div class="field ">
                                     <label for="dueDate"  > <span style="color:red" >* </span>Date d'échéance</label>
                                     <input [disabled]="isShowCase" type="datetime-local" pInputText id="company"  [(ngModel)]="task.dueDate" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !task.dueDate}"/>
+<!--                                    <p-calendar [disabled]="isShowCase" appendTo="body" [showTime]="true" [(ngModel)]="task.dueDate" [showIcon]="true"></p-calendar>-->
                                     <small class="ng-dirty ng-invalid" *ngIf="submitted && !task.dueDate">Date is required.</small>
                                 </div>
                                 <div class="field ">

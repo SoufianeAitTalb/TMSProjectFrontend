@@ -10,6 +10,8 @@ import {RoleComponent} from "./demo/components/parametre/role/role.component";
 import {DemandeComponent} from "./demo/components/tarification/demande/demande.component";
 import {TarifComponent} from "./demo/components/tarification/tarif/tarif.component";
 import {OffresComponent} from "./demo/components/tarification/offres/offres.component";
+import {AuthGuard} from "./guards/auth/authentication/authentication.guard";
+
 
 @NgModule({
     imports: [
@@ -21,13 +23,14 @@ import {OffresComponent} from "./demo/components/tarification/offres/offres.comp
                     { path: 'tarification/demande/creerDemande', component: CreerDemandeComponent },
                     { path: 'tarification/tarif', component:TarifComponent, },
                     { path: 'tarification/offre', component:OffresComponent, },
-                    { path: '', redirectTo: '/pages/client',
+                    { path: '', redirectTo: '/auth/login',
                     pathMatch: 'full' },
                     { path: 'pages', loadChildren: () => import('./demo/components/crm/pages.module').then(m => m.PagesModule) },
                     { path: 'parametre/collaborateur', component: AjouterCollaborateurComponent },
                     { path: 'parametre/role', component: RoleComponent },
                 ]
             },
+            { path: 'auth', loadChildren: () => import('./demo/components/auth/auth.module').then(m => m.AuthModule) },
             { path: 'notfound', component: NotfoundComponent },
             { path: '**', redirectTo: '/notfound' },
         ], { scrollPositionRestoration: 'enabled', anchorScrolling: 'enabled', onSameUrlNavigation: 'reload' })

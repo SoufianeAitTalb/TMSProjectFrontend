@@ -65,7 +65,14 @@ import {CountryService} from "./demo/service/country.service";
 
 @NgModule({
     declarations: [
-        AppComponent, NotfoundComponent, AjouterCollaborateurComponent,RoleComponent, DemandeComponent, TarifComponent, OffresComponent, CreerDemandeComponent
+        AppComponent,
+        NotfoundComponent,
+        AjouterCollaborateurComponent,
+        RoleComponent,
+        DemandeComponent,
+        TarifComponent,
+        OffresComponent,
+        CreerDemandeComponent,
     ],
     imports: [
         AppRoutingModule,

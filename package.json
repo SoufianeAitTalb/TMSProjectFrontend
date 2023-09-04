@@ -22,6 +22,7 @@
     "@angular/router": "^15.1.0",
     "bootstrap": "^5.3.1",
     "chart.js": "^3.3.2",
+    "emailjs-com": "^3.2.0",
     "primeflex": "^3.2.1",
     "primeicons": "6.0.1",
     "primeng": "15.1.1",

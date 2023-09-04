@@ -25,6 +25,7 @@ import { InputSwitchModule } from 'primeng/inputswitch';
 import {CheckboxModule} from "primeng/checkbox";
 import {StyleClassModule} from "primeng/styleclass";
 import { ToggleButtonModule } from 'primeng/togglebutton';
+import {CalendarModule} from "primeng/calendar";
 
 @NgModule({
     imports: [
@@ -51,7 +52,8 @@ import { ToggleButtonModule } from 'primeng/togglebutton';
         InputSwitchModule,
         CheckboxModule,
         StyleClassModule,
-        ToggleButtonModule
+        ToggleButtonModule,
+        CalendarModule
     ],
     declarations: [TaskComponent],
     providers:[AgentService]

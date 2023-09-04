@@ -40,12 +40,12 @@ export class opportunityComponent implements OnInit {
 
     opportunity : opportunity ={};
     opportunities : opportunity[] =[];
-   
+
     opportunityDialog: boolean = false;
     MisajouropportunityDialog: boolean = false;
-    
+
     StaffDialog: boolean =false;
- 
+
     submitted: boolean = false;
 
     cols: any[] = [];
@@ -53,12 +53,12 @@ export class opportunityComponent implements OnInit {
     competitions: any[]=[{competition:"faible"},{competition:"moyenne"},{competition:"Forte"}]
     AddressTypes: any[]=[{AddressType:"adresse privée"},{AddressType:"port"},{AddressType:"gare"},{AddressType:"station aérienne"}];
     statuses: any[]=[{status:"en attente"},{status:"en cours"},{status:"à moitié fermée"},{status:"presque fermée"},{status:"fermée"},]
-   
+
     FullName:string=" ";
-    
+
     Staff: Staff={};
 
-  
+
 
     constructor(private router: Router,private clientService: ClientService,
       private messageService: MessageService, private countryService: CountryService,private StaffService: StaffService, private opportunityService:OpportunityService,private MisajourService: MisajourOpportunityService) { }
@@ -68,7 +68,7 @@ export class opportunityComponent implements OnInit {
       this.StaffService.listStaff().subscribe({next:(data:Staff[])=> {this.listStaff=data;}});
       this.countryService.getAllCountries().subscribe({next:(data:Country[])=> {this.countries = data;}});
       this.opportunityService.getOpportunities().subscribe({next: (data: opportunity[])=>{this.opportunities=data;}});
-      
+
 
     }
 
@@ -77,7 +77,7 @@ export class opportunityComponent implements OnInit {
         this.Staff.staffId = selectedStaff.staffId;
       }
     }
-  
+
     ajouterOpportunity(){
       this.opportunity = {};
       this.submitted = false;
@@ -91,7 +91,7 @@ export class opportunityComponent implements OnInit {
         this.MisajourService.addNewMisajour(this.opportunity.opportunityid!,this.Misajour).subscribe();
         this.misajour(this.opportunity);
       }
-    }  
+    }
 
 
     misajour(opportunity: opportunity) {
@@ -105,7 +105,7 @@ export class opportunityComponent implements OnInit {
     deletemisajour(misajour:MisajourOpportunity){
       this.MisajourService.deleteMisajourOfOpportunity(misajour.misajourId!).subscribe();
       this.Misajours = this.Misajours.filter(val => val.misajourId !== this.Misajour.misajourId);
-      
+
 
     }
 
@@ -120,7 +120,7 @@ export class opportunityComponent implements OnInit {
         this.submitted = false;
         this.StaffDialog=false;
     }
-    
+
 
     saveopportunity() {
       this.submitted = true;
@@ -133,7 +133,7 @@ export class opportunityComponent implements OnInit {
                 this.messageService.add({ severity: 'success', summary: 'Successful', detail: response.message, life: 3000 });
               } else {
                 this.messageService.add({severity: 'error',summary: 'Error Message',detail: 'Une erreur s\'est produite lors de la modification d\'opportunité',life: 3000});
-              }},error => { 
+              }},error => {
                 this.messageService.add({severity: 'error',summary: 'Error Message',detail: 'Une erreur s\'est produite lors de la modification d\'opportunité',life: 3000});});
 
               } else if (!this.opportunity.opportunityid) {// la creation de opportunity
@@ -144,18 +144,18 @@ export class opportunityComponent implements OnInit {
                 }else {
                   this.messageService.add({severity: 'error',summary: 'Error Message',detail: 'Une erreur s\'est produite lors de l\'ajout d\'opportunité',life: 3000});
                 }
-              }); 
+              });
           }
           this.opportunities = [...this.opportunities];
           this.opportunityDialog = false;
           this.opportunity = {};
           this.ngOnInit();
           this.opportunities = [...this.opportunities];
-          
+
         } else{
           this.messageService.add({severity: 'warn',summary: 'Warning Message',detail: 'Remplir les champs vides!',life: 3000});
         }
-       
+
     }
 
     Terminer(){
@@ -164,14 +164,14 @@ export class opportunityComponent implements OnInit {
       this.Staff={}
       this.ngOnInit()
     }
-    
+
     formatDate(components: number[]): string {
       const day = components[2];
       const month = components[1];
       const year = components[0];
       const hour = components[3];
       const minute = components[4];
-    
+
       const formattedDate = `${day}/${month}/${year}  ${hour}:${minute}`;
       return formattedDate;
     }
@@ -207,7 +207,6 @@ export class opportunityComponent implements OnInit {
 
   }
 }
-
 
 
 

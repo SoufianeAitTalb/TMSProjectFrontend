@@ -1,11 +1,7 @@
 import { Component } from '@angular/core';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import {MessageService} from "primeng/api";
-import {AgentService} from "../../../service/agent.service";
-import {CurrencyService} from "../../../service/currency.service";
-import {CountryService} from "../../../service/country.service";
 import {StaffService} from "../../../service/staff.service";
-import {DatePipe} from "@angular/common";
 import {Router} from "@angular/router";
 
 @Component({
@@ -19,7 +15,7 @@ import {Router} from "@angular/router";
             color: var(--primary-color) !important;
         }
     `],
-    providers: [StaffService]
+    providers: [StaffService,MessageService]
 
 })
 export class LoginComponent {
@@ -27,23 +23,27 @@ export class LoginComponent {
     valCheck: string[] = ['remember'];
     email!:string;
     password!: string;
+    incorrect: boolean=false;
 
-    constructor(public layoutService: LayoutService,private staffService: StaffService,private router:Router) { }
+    constructor(public layoutService: LayoutService,private staffService: StaffService,private router:Router,private messageService : MessageService) { }
 
     onLogin() {
-        this.staffService.login(this.email,this.password).subscribe(
 
-            (data: any) => {
-                console.log('Data received:', data.status);
-                this.router.navigate(["/pages/client"]);
+        if(this.email!=null && this.password!=null) {
+            this.incorrect = false;
+            this.staffService.login(this.email, this.password).subscribe(
+                (data: any) => {
 
-            },
-            (error: any) => {
-                // This function is called if there is an error.
-                console.error('Error:', error.error);
-                throw error;
-            }
+                    this.router.navigate(["/crm/client"]);
 
-        )
+                },
+                (error: any) => {
+                    // This function is called if there is an error.
+                    this.incorrect = true;
+                    this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Email ou Mot de passe incorrect', life: 3000 });
+                    throw error;
+                }
+            )
+        }
     }
 }

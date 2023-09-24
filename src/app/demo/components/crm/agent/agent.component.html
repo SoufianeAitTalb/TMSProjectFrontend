@@ -212,10 +212,10 @@
                                     <small class="ng-dirty ng-invalid" *ngIf="submitted && !agent.cnss">CNSS is required.</small>
                                 </div>
 
-                                <div class="field">
-                                    <label for="patente">Patante</label>
-                                    <p-inputNumber id="patente" [(ngModel)]="agent.patente"></p-inputNumber>
-                                </div>
+<!--                                <div class="field">-->
+<!--                                    <label for="patente">Patante</label>-->
+<!--                                    <p-inputNumber id="patente" [(ngModel)]="agent.patente"></p-inputNumber>-->
+<!--                                </div>-->
                             </div>
 
 
@@ -245,7 +245,7 @@
 
                                 <div class="field ">
                                     <label for="currency"><span style="color:red" >* </span>Devise</label>
-                                    <p-dropdown [options]="currencies" optionLabel="name" [(ngModel)]="agentDefaultCurrency"  [ngClass]="{'ng-invalid ng-dirty' : submitted && !agentDefaultCurrency.currencyId}"></p-dropdown>
+                                    <p-dropdown appendTo="body" [options]="currencies" optionLabel="name" [(ngModel)]="agentDefaultCurrency"  [ngClass]="{'ng-invalid ng-dirty' : submitted && !agentDefaultCurrency.currencyId}"></p-dropdown>
                                     <small class="ng-dirty ng-invalid" *ngIf="submitted && !agentDefaultCurrency.currencyId">Currency is required.</small>
                                     <!--  <input type="text" pInputText id="currency" [(ngModel)]="agent.defaultCurrencyId" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !agent.defaultCurrencyId}"/>-->
                                 </div>

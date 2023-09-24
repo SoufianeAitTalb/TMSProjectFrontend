@@ -22,23 +22,23 @@ export class AppMenuComponent implements OnInit {
                     {
                         label: 'Client',
                         icon: 'pi pi-fw pi-building',
-                        routerLink: ['/pages/client']
+                        routerLink: ['/crm/client']
                     },
                     {
                         label: 'Agent',
                         icon: 'pi pi-fw pi-user',
-                        routerLink: ['/pages/agent']
+                        routerLink: ['/crm/agent']
                     },
 
                     {
-                        label: 'Tâches',
+                        label: 'Tâche',
                         icon: 'pi pi-fw pi-calendar',
-                        routerLink: ['/pages/task']
+                        routerLink: ['/crm/task']
                     },
                     {
-                        label: 'Opportunity',
+                        label: 'Opportunité',
                         icon: 'pi pi-fw pi-pencil',
-                        routerLink: ['/pages/opportunity']
+                        routerLink: ['/crm/opportunity']
                     },
                 ]
             },

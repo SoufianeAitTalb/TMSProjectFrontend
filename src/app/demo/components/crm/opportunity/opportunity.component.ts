@@ -69,7 +69,6 @@ export class opportunityComponent implements OnInit {
       this.countryService.getAllCountries().subscribe({next:(data:Country[])=> {this.countries = data;}});
       this.opportunityService.getOpportunities().subscribe({next: (data: opportunity[])=>{this.opportunities=data;}});
 
-
     }
 
     onStaffSelectionChange(selectedStaff: any) {
@@ -88,8 +87,18 @@ export class opportunityComponent implements OnInit {
       this.submitted = true;
       if(this.Misajour.status){
         this.Misajour.opportunityId=this.opportunity.opportunityid;
+        // this.Misajour.dateCreated=new Date();
+        // this.Misajours.push({this.Misajour});
         this.MisajourService.addNewMisajour(this.opportunity.opportunityid!,this.Misajour).subscribe();
-        this.misajour(this.opportunity);
+        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Le commentaire a été ajouté avec succès', life: 3000 });
+
+          setTimeout(() => {
+              // Your code here
+              // this.Misajours=[];
+              this.MisajourService.getMisajoursOpportunity(this.opportunity.opportunityid!).subscribe({next:(data:MisajourOpportunity[])=> {this.Misajours= data;console.log(data);}});
+          }, 500);
+
+          // this.misajour(this.opportunity);
       }
     }
 
@@ -99,13 +108,24 @@ export class opportunityComponent implements OnInit {
       this.Misajour={}
       this.opportunity = { ...opportunity };
       this.MisajouropportunityDialog = true;
+
+      this.Misajours=[];
       this.MisajourService.getMisajoursOpportunity(this.opportunity.opportunityid!).subscribe({next:(data:MisajourOpportunity[])=> {this.Misajours= data;console.log(data);}});
     }
 
     deletemisajour(misajour:MisajourOpportunity){
       this.MisajourService.deleteMisajourOfOpportunity(misajour.misajourId!).subscribe();
-      this.Misajours = this.Misajours.filter(val => val.misajourId !== this.Misajour.misajourId);
+        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Le commentaire a été supprimé avec succès', life: 3000 });
 
+      // this.Misajours = this.Misajours.filter(val => val.misajourId !== this.Misajour.misajourId);
+        setTimeout(() => {
+            // Your code here
+            // this.Misajours=[];
+            this.MisajourService.getMisajoursOpportunity(this.opportunity.opportunityid!).subscribe({next:(data:MisajourOpportunity[])=> {this.Misajours= data;},
+            error:(error)=>{
+                this.Misajours=[];
+            }});
+        }, 500);
 
     }
 
@@ -124,6 +144,7 @@ export class opportunityComponent implements OnInit {
 
     saveopportunity() {
       this.submitted = true;
+
         if (this.opportunity.startDate&&this.opportunity.endDate&&this.opportunity.service?.trim()&&this.opportunity.staffid&&this.opportunity.competition&&this.opportunity.origineAddressType&&this.opportunity.origineCountry&&this.opportunity.origineAddress?.trim()&&this.opportunity.clientid&&this.opportunity.activity?.trim()) {
           if (this.opportunity.opportunityid) {
             console.log("la modification de opportunity", this.opportunity);// la modification de opportunity
@@ -131,6 +152,7 @@ export class opportunityComponent implements OnInit {
               response => {
               if (response.message === 'L\'opportunité a été modifié avec succès') {
                 this.messageService.add({ severity: 'success', summary: 'Successful', detail: response.message, life: 3000 });
+                this.ngOnInit();
               } else {
                 this.messageService.add({severity: 'error',summary: 'Error Message',detail: 'Une erreur s\'est produite lors de la modification d\'opportunité',life: 3000});
               }},error => {
@@ -141,16 +163,21 @@ export class opportunityComponent implements OnInit {
                 this.opportunityService.addNewOpportunity(this.opportunity).subscribe(responseMessage => {
                 if (responseMessage === 'L\'opportunité a été ajouté avec succès') {
                   this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'L\'opportunité a été ajouté avec succès', life: 3000 });
+                  this.ngOnInit();
+
+
+
                 }else {
                   this.messageService.add({severity: 'error',summary: 'Error Message',detail: 'Une erreur s\'est produite lors de l\'ajout d\'opportunité',life: 3000});
                 }
               });
           }
+
           this.opportunities = [...this.opportunities];
+          // this.opportunities.push(this.opportunity);
           this.opportunityDialog = false;
           this.opportunity = {};
-          this.ngOnInit();
-          this.opportunities = [...this.opportunities];
+          // this.opportunities = [...this.opportunities];
 
         } else{
           this.messageService.add({severity: 'warn',summary: 'Warning Message',detail: 'Remplir les champs vides!',life: 3000});

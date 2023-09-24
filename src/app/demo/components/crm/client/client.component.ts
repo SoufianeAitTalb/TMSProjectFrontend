@@ -29,17 +29,17 @@ export class clientComponent implements OnInit {
 
     selectedCountryAdvanced: any[] = [];
 
-   
+
 
 
 
     client : Client ={};
     clients : Client[] =[];
-   
+
     clientDialog: boolean = false;
     deleteClientDialog: boolean = false;
     StaffDialog: boolean =false;
- 
+
     submitted: boolean = false;
 
     cols: any[] = [];
@@ -53,9 +53,9 @@ export class clientComponent implements OnInit {
     Total_Active_Contacts : number =0;
     Total_Inactive_Contacts : number =0;
     FullName:string=" ";
-    
+
     Staff: Staff={};
-  
+
 
     constructor(private router: Router,private clientService: ClientService,private contactService: ContactClientService,
       private messageService: MessageService, private countryService: CountryService, private currencyService: CurrencyService,
@@ -69,18 +69,18 @@ export class clientComponent implements OnInit {
       this.contactService.countContacts().subscribe({next: (data: number)=>{this.Total_Contacts =data;}});
       this.contactService.countActiveContacts().subscribe({next: (data: number)=>{this.Total_Active_Contacts =data;}});
       this.contactService.countInactiveContacts().subscribe({next: (data: number)=>{this.Total_Inactive_Contacts =data;}});
-       
+
       this.clientService.getClients().subscribe({next: (data: Client[])=>{this.clients=data;console.log(data);}});
       this.StaffService.listStaff().subscribe({next:(data:Staff[])=> {this.listStaff=data;}});
-        
+
       this.countryService.getAllCountries().subscribe({next:(data:Country[])=> {this.countries = data;}});
       this.currencyService.getAllCurrencies().subscribe({next:(data:Currency[])=> {this.currencies=data;}});
     }
 
   navigateToContactClient(clientId: bigint) {
-    this.router.navigate(['/pages/client/ContactClient', clientId]);
+    this.router.navigate(['/crm/client/ContactClient', clientId]);
   }
-  
+
 
 
   onCountrySelectionChangeS(selectedCountry: any) {
@@ -110,7 +110,7 @@ export class clientComponent implements OnInit {
     }
   }
 
-     
+
 
 
     ajouterClient(){
@@ -124,7 +124,7 @@ export class clientComponent implements OnInit {
       this.client = { ...client };
       this.StaffDialog = true;
     }
-  
+
 
 
 
@@ -153,7 +153,7 @@ export class clientComponent implements OnInit {
         })
         this.client = {};
     }
-    
+
 
     hideDialog() {
         this.clientDialog = false;
@@ -161,7 +161,7 @@ export class clientComponent implements OnInit {
         this.StaffDialog=false;
         this.clientService.getClients().subscribe({next: (data: Client[])=>{this.clients=data;}});
     }
-    
+
 
     saveClient() {
         this.submitted = true;
@@ -173,7 +173,7 @@ export class clientComponent implements OnInit {
                 this.messageService.add({ severity: 'success', summary: 'Successful', detail: response.message, life: 3000 });
               } else {
                 this.messageService.add({severity: 'error',summary: 'Error Message',detail: 'Une erreur s\'est produite lors de la modification du client',life: 3000});
-              }},error => { 
+              }},error => {
                 this.messageService.add({severity: 'error',summary: 'Error Message',detail: 'Une erreur s\'est produite lors de la modification du client',life: 3000});});
 
               } else if (!this.client.clientId) {// la creation de client
@@ -186,13 +186,13 @@ export class clientComponent implements OnInit {
                 }
               },error => {  this.messageService.add({severity: 'error',summary: 'Error',detail: 'Cet email est déjà utilisé',life: 3000
                     });
-                }); 
+                });
           }
           this.clients = [...this.clients];
           this.clientDialog = false;
           this.client = {};
           this.ngOnInit()
-          
+
         } else{
           this.messageService.add({severity: 'warn',summary: 'Warning Message',detail: 'Remplir les champs vides!',life: 3000});
         }
@@ -220,7 +220,7 @@ export class clientComponent implements OnInit {
       this.clients = [...this.clients];
       this.Staff={}
       this.ngOnInit()
-        
+
 
       }
 
@@ -230,7 +230,7 @@ export class clientComponent implements OnInit {
         const year = components[0];
         const hour = components[3];
         const minute = components[4];
-      
+
         const formattedDate = `${day}/${month}/${year}  ${hour}:${minute}`;
         return formattedDate;
       }

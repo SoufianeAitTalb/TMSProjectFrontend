@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Staff } from '../api/Staff';
-import { environment } from 'src/environments/environment';
+
 import { Observable } from 'rxjs/internal/Observable';
 import {Collaborateurs} from "../api/main";
-import {error} from "@angular/compiler-cli/src/transformers/util";
+
 
 
 
@@ -50,7 +50,6 @@ export class StaffService {
 
     listStaff():Observable<Staff[]>{
         return this.http.get<Staff[]>(this.apiUrl);
-
     }
     setNewPassKey(email:string,newPassKey:string){
         return this.http.put(this.apiUrl+"set-new-pass-key",{"email":email,"newPassKey":newPassKey});
@@ -58,7 +57,9 @@ export class StaffService {
     changePassword(email:string,password:string){
         return this.http.put(this.apiUrl+"change-password",{"email":email,"password":password});
     }
-
+    doesUserExist(email:string){
+        return this.http.post(this.apiUrl+"does-user-exist", {"email":email});
+    }
     getCollaborateurs(): Observable<Collaborateurs[]> {
         return this.http.get<Collaborateurs[]>(this.apiUrl);
     }

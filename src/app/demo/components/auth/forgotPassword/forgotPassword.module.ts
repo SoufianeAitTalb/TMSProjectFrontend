@@ -8,7 +8,8 @@ import { FormsModule } from '@angular/forms';
 import { PasswordModule } from 'primeng/password';
 import { InputTextModule } from 'primeng/inputtext';
 import {MessageModule} from "primeng/message";
-import * as Email from 'emailjs-com'; // Import EmailJS library
+import * as Email from 'emailjs-com';
+import {ToastModule} from "primeng/toast"; // Import EmailJS library
 
 // Configure EmailJS
 Email.init('XffNj8vomoW1PF0hz'); // Replace with your EmailJS user ID
@@ -22,7 +23,8 @@ Email.init('XffNj8vomoW1PF0hz'); // Replace with your EmailJS user ID
         InputTextModule,
         FormsModule,
         PasswordModule,
-        MessageModule
+        MessageModule,
+        ToastModule
     ],
     declarations: [ForgotPasswordComponent]
 })

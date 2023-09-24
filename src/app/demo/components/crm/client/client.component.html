@@ -210,10 +210,10 @@
                                 <input type="text" pInputText id="website" [(ngModel)]="client.website" />
 
                             </div>
-                            <div class="field ">
-                                <label for="rc">RC</label>
-                                <input type="text" pInputText id="rc" [(ngModel)]="client.rc" />
-                            </div>
+<!--                            <div class="field ">-->
+<!--                                <label for="rc">RC</label>-->
+<!--                                <input type="text" pInputText id="rc" [(ngModel)]="client.rc" />-->
+<!--                            </div>-->
                             <div class="field ">
                                 <label for="cnss">CNSS</label>
                                 <input type="text" pInputText id="cnss" [(ngModel)]="client.cnss" />
@@ -262,13 +262,13 @@
                             </div>
                             <div class="field ">
                                 <label for="currency">Devise</label>
-                                <p-dropdown  placeholder="Selectionner..." [options]="currencies" optionLabel="name" optionValue="currencyId" [(ngModel)]="client.defaultCurrencyId" (ngModelChange)="onCurrencySelectionChange($event)"></p-dropdown>
+                                <p-dropdown  placeholder="Selectionner..." appendTo="body" [options]="currencies" optionLabel="name" optionValue="currencyId" [(ngModel)]="client.defaultCurrencyId" (ngModelChange)="onCurrencySelectionChange($event)"></p-dropdown>
                               <!--  <input type="text" pInputText id="currency" [(ngModel)]="client.defaultCurrencyId" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !client.defaultCurrencyId}"/>-->
                             </div>
-                            <div class="field">
-                                <label for="patente">Patente</label>
-                                <p-inputNumber id="patente" [(ngModel)]="client.patente"></p-inputNumber>
-                            </div>
+<!--                            <div class="field">-->
+<!--                                <label for="patente">Patente</label>-->
+<!--                                <p-inputNumber id="patente" [(ngModel)]="client.patente"></p-inputNumber>-->
+<!--                            </div>-->
                         </div>
                     </div>
                 </p-tabPanel>
@@ -346,7 +346,7 @@
                 <div class="card">
                     <div class="form-columns formgroup-inline">
                         <div class="form-column col-12 md:col-6">
-                            <p-dropdown [options]="listStaff" [(ngModel)]="Staff.staffId" [virtualScroll]="true" placeholder="Selectionner un Commercial" [virtualScrollItemSize]="20" optionLabel="lastName" optionValue="staffId" dataKey="staffId" (ngModelChange)="onStaffSelectionChange($event)">
+                            <p-dropdown appendTo="body" [options]="listStaff" [(ngModel)]="Staff.staffId" [virtualScroll]="true" placeholder="Selectionner un Commercial" [virtualScrollItemSize]="20" optionLabel="lastName" optionValue="staffId" dataKey="staffId" (ngModelChange)="onStaffSelectionChange($event)">
                                 <ng-template let-staff pTemplate="selectedItem">
                                   {{ staff.firstName  + ' ' + staff.lastName}}
                                 </ng-template>
@@ -362,7 +362,7 @@
 
                     <button pButton label="Annuler l'Affectation" class="p-button-danger"(click)="SupprimerCommercial()"></button>
                 </div>
-                <br/><br/><br/><br/><br/><br/>
+                <br/><br/>
                 <ng-template pTemplate="footer">
                     <button pButton pRipple label="Terminer" icon="pi pi-check" class="p-button-text" (click)="hideDialog()"></button>
                 </ng-template>

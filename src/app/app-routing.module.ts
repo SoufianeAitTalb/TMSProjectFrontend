@@ -25,7 +25,7 @@ import {AuthGuard} from "./guards/auth/authentication/authentication.guard";
                     { path: 'tarification/offre', component:OffresComponent, },
                     { path: '', redirectTo: '/auth/login',
                     pathMatch: 'full' },
-                    { path: 'pages', loadChildren: () => import('./demo/components/crm/pages.module').then(m => m.PagesModule) },
+                    { path: 'crm', loadChildren: () => import('./demo/components/crm/crm.module').then(m => m.CrmModule) },
                     { path: 'parametre/collaborateur', component: AjouterCollaborateurComponent },
                     { path: 'parametre/role', component: RoleComponent },
                 ]

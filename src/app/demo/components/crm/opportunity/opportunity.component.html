@@ -6,15 +6,15 @@
             <p-toolbar styleClass="mb-4">
                 <ng-template pTemplate="left">
                     <div class="my-2" >
-                        <button pButton pRipple label="Ajouter Opportunity" icon="pi pi-plus" class="p-button-raised mr-2" (click)="ajouterOpportunity()"></button>
+                        <button pButton pRipple label="Ajouter opportunité" icon="pi pi-plus" class="p-button-raised mr-2" (click)="ajouterOpportunity()"></button>
                         <button pButton pRipple type="button" label="Exporter"  icon="pi pi-upload" class="p-button-secondary" (click)="exportToExcel()"></button>
                     </div>
-                </ng-template>    
+                </ng-template>
             </p-toolbar>
             <p-table #dt [value]="opportunities" [columns]="cols" responsiveLayout="scroll" [rows]="15" [globalFilterFields]="['dateCreated','clientName','service','volume']" [paginator]="true"  [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"  [rowHover]="true" dataKey="id">
                 <ng-template pTemplate="caption">
                     <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-                        <h5 class="m-0">Liste de opportunity</h5>
+                        <h5 class="m-0">Liste d'opportunités</h5>
                         <span class="block mt-2 md:mt-0 p-input-icon-left">
                             <i class="pi pi-search"></i>
                             <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..."  class="w-full sm:w-auto"/>
@@ -37,7 +37,7 @@
                         </td>
                         <td style="width:14%; min-width:10rem;"><span class="p-column-title">client</span>
                           {{opportunity.clientName}}                        </td>
-                    
+
                         <td style="width:14%; min-width:10rem;"><span class="p-column-title">Service</span>
                             {{opportunity.service}}
                         </td>
@@ -49,14 +49,14 @@
                             <span class="p-column-title">Options</span>
                             <div class="flex">
                                 <button pButton pRipple icon="pi pi-pencil"  class="p-button-rounded p-button-success p-button-outlined  mr-2" (click)="editopportunity(opportunity)"></button>
-                                <button pButton pRipple icon="pi pi-sync" class="p-button-rounded p-button-warning p-button-outlined mr-2"(click)="misajour(opportunity)"></button>    
-                            </div>   
+                                <button pButton pRipple icon="pi pi-sync" class="p-button-rounded p-button-warning p-button-outlined mr-2"(click)="misajour(opportunity)"></button>
+                            </div>
                         </td>
                     </tr>
                 </ng-template>
             </p-table>
         </div>
-        <p-dialog [(visible)]="opportunityDialog" [style]="{width: '1190px'}" header=" opportunity" [modal]="true" class="p-fluid">
+        <p-dialog [(visible)]="opportunityDialog" [style]="{width: '1190px'}" header=" opportunité" [modal]="true" class="p-fluid">
             <ng-template pTemplate="content">
                 <div class="form-columns formgroup-inline">
                         <div class="form-column col-12 md:col-6">
@@ -92,13 +92,13 @@
                             <div class="form-columns formgroup-inline">
                                 <div class="form-column col-12 md:col-6">
                                     <div class="field ">
-                                        <label for="expectedRevenue">Revenu prévu</label>
+                                        <label for="expectedRevenue">Revenu prévu ( EUR )</label>
                                         <p-inputNumber id="expectedRevenue" [(ngModel)]="opportunity.expectedRevenue"mode="decimal"  [min]="0"></p-inputNumber>
                                     </div>
                                 </div>
                                 <div class="form-column col-12 md:col-6">
                                     <div class="field ">
-                                        <label for="expectedBigProfit">bénéfice brut attendu</label>
+                                        <label for="expectedBigProfit">bénéfice brut attendu ( EUR )</label>
                                         <p-inputNumber id="expectedBigProfit" [(ngModel)]="opportunity.expectedBigProfit"mode="decimal"  [min]="0"></p-inputNumber>
                                     </div>
                                 </div>
@@ -124,7 +124,7 @@
                                     <ng-template let-staff pTemplate="item">
                                       {{ staff.firstName + ' ' + staff.lastName }}
                                     </ng-template>
-                                </p-dropdown> 
+                                </p-dropdown>
                             </div>
                             <div class="field ">
                                 <label for="competition">competition</label>
@@ -160,7 +160,7 @@
                             <div class="form-column col-12 md:col-6">
                                 <div class="field ">
                                     <label for="destinationAddressType">Type d'adresse</label>
-                                    <p-dropdown [options]="AddressTypes"  placeholder="Selectionner..." optionLabel="AddressType" optionValue="AddressType"  [(ngModel)]="opportunity.destinationAddressType"></p-dropdown>   
+                                    <p-dropdown [options]="AddressTypes"  placeholder="Selectionner..." optionLabel="AddressType" optionValue="AddressType"  [(ngModel)]="opportunity.destinationAddressType"></p-dropdown>
                                 </div>
                             </div>
                             <div class="form-column col-12 md:col-6">
@@ -201,9 +201,9 @@
                         <button pButton pRipple label="Ajouter" class="p-button-raised mr-2" (click)="ajoutermisajour()"></button>
                     </div>
                 </div>
-                
+
                 <p-table #dt [value]="Misajours" [columns]="cols" responsiveLayout="scroll" [rows]="5"  [paginator]="true"  [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"  [rowHover]="true" dataKey="id">
-                
+
                     <ng-template pTemplate="header">
                         <tr>
                             <th pSortableColumn="dateCreated">Date de Creation <p-sortIcon field="dateCreated"></p-sortIcon></th>
@@ -214,13 +214,13 @@
                     </ng-template>
                     <ng-template pTemplate="body" let-Misajour>
                         <tr>
-                            <td style="width:14%; min-width:10rem;"><span class="p-column-title">Date de Creation</span>
+                            <td *ngIf="Misajour.dateCreated" style="width:14%; min-width:10rem;"><span class="p-column-title">Date de Creation</span>
                                 {{this.formatDate(Misajour.dateCreated)}}
                             </td>
                             <td style="width:14%; min-width:10rem;"><span class="p-column-title">Status</span>
-                              {{Misajour.status}} 
+                              {{Misajour.status}}
                             </td>
-                        
+
                             <td style="width:14%; min-width:10rem;"><span class="p-column-title">Commentaire</span>
                                 {{Misajour.comment}}
                             </td>
@@ -228,7 +228,7 @@
                                 <span class="p-column-title">Options</span>
                                 <div class="flex">
                                     <button pButton pRipple icon="pi pi-times" class="p-button-rounded p-button-danger p-button-outlined" (click)="deletemisajour(Misajour)"></button>
-                                </div>   
+                                </div>
                             </td>
                         </tr>
                     </ng-template>

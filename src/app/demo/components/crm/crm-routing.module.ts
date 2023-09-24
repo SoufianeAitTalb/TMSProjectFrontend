@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
     imports: [RouterModule.forChild([
 
         { path: 'client', loadChildren: () => import('./client/client.module').then(m => m.clientModule) },
-        { path: 'opportunity', loadChildren: () => import('./opportunity/opportunity.module').then(m => m.opportunityModule) },        
+        { path: 'opportunity', loadChildren: () => import('./opportunity/opportunity.module').then(m => m.opportunityModule) },
         { path: 'agent', loadChildren: () => import('./agent/agent.module').then(m => m.AgentModule) },
         { path: 'task', loadChildren: () => import('./task/task.module').then(m => m.TaskModule) },
 
@@ -13,4 +13,4 @@ import { RouterModule } from '@angular/router';
     ])],
     exports: [RouterModule]
 })
-export class PagesRoutingModule { }
+export class CrmRoutingModule { }
